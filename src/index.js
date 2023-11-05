@@ -14,7 +14,7 @@ const childFolder = actions.getInput('child_folder', { required: false });
 const override = actions.getBooleanInput('override', { required: false });
 let filename = actions.getInput('name', { required: false });
 
-const credentialsJSON = JSON.parse(Buffer.from(credentials, 'base64').toString());
+const credentialsJSON = JSON.parse(credentials);
 const auth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 
 auth.setCredentials(credentialsJSON);
@@ -26,7 +26,9 @@ async function getUploadFolderId() {
     }
 
     // Check if child folder already exists and is unique
-    const { data: { files } } = await drive.files.list({
+    const {
+        data: { files },
+    } = await drive.files.list({
         q: `name='${childFolder}' and '${parentFolderId}' in parents and trashed=false`,
         fields: 'files(id)',
         includeItemsFromAllDrives: true,
@@ -45,7 +47,9 @@ async function getUploadFolderId() {
         mimeType: 'application/vnd.google-apps.folder',
         parents: [parentFolderId],
     };
-    const { data: { id: childFolderId } } = await drive.files.create({
+    const {
+        data: { id: childFolderId },
+    } = await drive.files.create({
         resource: childFolderMetadata,
         fields: 'id',
         supportsAllDrives: true,
