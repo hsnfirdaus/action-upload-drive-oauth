@@ -4,18 +4,20 @@ const fs = require('fs');
 const actions = require('@actions/core');
 const { google } = require('googleapis');
 
+const clientId = actions.getInput('client_id', { required: true });
+const clientSecret = actions.getInput('client_secret', { required: true });
+const redirectUri = actions.getInput('redirect_uri', { required: true });
 const credentials = actions.getInput('credentials', { required: true });
 const parentFolderId = actions.getInput('parent_folder_id', { required: true });
 const target = actions.getInput('target', { required: true });
-const owner = actions.getInput('owner', { required: false });
 const childFolder = actions.getInput('child_folder', { required: false });
 const override = actions.getBooleanInput('override', { required: false });
 let filename = actions.getInput('name', { required: false });
 
 const credentialsJSON = JSON.parse(Buffer.from(credentials, 'base64').toString());
-const scopes = ['https://www.googleapis.com/auth/drive.file'];
-const auth = new google.auth
-    .JWT(credentialsJSON.client_email, null, credentialsJSON.private_key, scopes, owner);
+const auth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
+
+auth.setCredentials(credentialsJSON);
 const drive = google.drive({ version: 'v3', auth });
 
 async function getUploadFolderId() {

@@ -1,8 +1,17 @@
-name: 'Upload Github-Actions Artifacts TO Google Drive'
-description: 'Github Action To Upload Github-Actions -> Artifacts -> Google Drive Using A Google Drive Api!'
+name: 'Upload File to Google Drive using OAuth2 Credentials'
+description: 'Github Action To Upload Github-Actions File to Google Drive Using A Google Drive OAuth Credential!'
 inputs:
+  client_id:
+    description: 'Google OAuth2 Client Id'
+    required: true
+  client_secret:
+    description: 'Google OAuth2 Client Secret'
+    required: true
+  redirect_uri:
+    description: 'Google OAuth2 Redirect URI'
+    required: true
   credentials:
-    description: 'Google service account credentials'
+    description: 'Google OAuth2 account credentials'
     required: true
   parent_folder_id:
     description: 'Google Drive folder ID to upload the file to'
@@ -10,10 +19,6 @@ inputs:
   target:
     description: 'Local path to the file to upload'
     required: true
-  owner:
-    description: 'Optional user account email (Require domain-wide authority delegation)'
-    required: false
-    default: null
   name:
     description: 'Optional name for the target file'
     required: false

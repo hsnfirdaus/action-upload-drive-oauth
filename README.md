@@ -1,5 +1,5 @@
-# Upload Github Artifacts TO GDrive
-Github Action To Upload Artifacts to Google Drive Using A Google Drive Api.
+# Action Upload Google Drive OAuth
+Github Action To Upload to Google Drive Using A Google OAuth2 Credential.
 
 ## Usage
 #### Simple example:
@@ -8,10 +8,13 @@ steps:
     - uses: actions/checkout@v4.1.1
 
     - name: Upload Artifacts TO Google Drive
-      uses: Jumbo810/Upload_Github_Artifacts_TO_GDrive@v2.2.2
+      uses: hsnfirdaus/action-upload-drive-oauth@v1.0.0
       with:
         target: <LOCAL_PATH_TO_YOUR_FILE>
-        credentials: ${{ secrets.<YOUR_SERVICE_ACCOUNT_CREDENTIALS> }}
+        client_id: ${{ secrets.<YOUR_OAUTH2_CREDENTIALS> }}
+        client_secret: ${{ secrets.<YOUR_OAUTH2_CLIENT_SECRET> }}
+        redirect_uri: ${{ secrets.<YOUR_OAUTH2_REDIRECT_URI> }}
+        credentials: ${{ secrets.<YOUR_OAUTH2_CREDENTIALS> }}
         parent_folder_id: <YOUR_DRIVE_FOLDER_ID>
 ```
 
@@ -19,12 +22,19 @@ steps:
 #### `target` (Required):
 Local path to the file to upload, can be relative from github runner current directory.
 
+#### `client_id` (Required):
+Google OAuth Client ID
+
+#### `client_secret` (Required):
+Google OAuth Client Secret
+
+#### `redirect_uri` (Required):
+Google OAuth Redirect URI
+
 #### `credentials` (Required):
-A service account public/private key pair encoded in base64.
+A OAuth2 Credential (JSON access_token, scope, token_type,...) encoded in base64.
 
-[Generate and download your credentials in JSON format](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating_service_account_keys)
-
-Run `base64 my_service_account_key.json > encoded.txt` and paste the encoded string into a github secret.
+[https://developers.google.com/oauthplayground](https://developers.google.com/oauthplayground)
 
 #### `parent_folder_id` (Required):
 The id of the drive folder where you want to upload your file. It is the string of characters after the last `/` when browsing to your folder URL. You must share the folder with the service account (using its email address) unless you specify a `owner`.
@@ -44,10 +54,6 @@ A sub-folder where to upload your file. It will be created if non-existent and m
  ┣ 📂 v2.0 // child folder
  ┃ ┗ 📜 uploaded_file_v2.0
 ```
-
-#### `owner` (Optional):
-The email address of a user account that has access to the drive folder and will get the ownership of the file after its creation. To use this feature you must grant your service account a [domain-wide delegation of authority](https://developers.google.com/admin-sdk/directory/v1/guides/delegation) beforehand.
-
 
 #### `override` (Optional):
 If set true, delete files with the same name before uploading.

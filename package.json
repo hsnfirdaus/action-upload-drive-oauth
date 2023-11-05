@@ -1,12 +1,12 @@
 {
-  "name": "Upload_Github_Artifacts_TO_GDrive",
+  "name": "action-upload-drive-oauth",
   "version": "1.0",
-  "description": "Github Action To Upload Artifacts to Google Drive using a service account",
+  "description": "Github Action To Upload Artifacts to Google Drive using a OAuth2 Credential",
   "main": "index.js",
-  "author": "Twiter.com@Jumbo810",
-  "repository": "git@github.com:Jumbo810/Upload_Github_Artifacts_TO_GDrive.git",
+  "author": "Muhammad Hasan Firdaus <hasanteam008@gmail.com>",
+  "repository": "https://github.com/hsnfirdaus/action-upload-drive-oauth.git",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "lint": "eslint src",
     "build": "ncc build src/index.js"
